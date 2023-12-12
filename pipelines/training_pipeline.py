@@ -13,6 +13,6 @@ def training_pipeline(data_path: str):
     """
     # Add steps by calling them like functions
     df = ingest_df(data_path)
-    clean_df(df)
-    train_model(df)
-    evaluate_model(df)
+    X_train, X_test, y_train, y_test = clean_df(df)
+    model = train_model(X_train, X_test, y_train, y_test)
+    r2, rmse = evaluate_model(model, X_test, y_test)

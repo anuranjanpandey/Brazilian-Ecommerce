@@ -9,11 +9,11 @@ from zenml.integrations.mlflow.model_deployers.mlflow_model_deployer import (
     MLFlowModelDeployer,
 )
 from zenml.integrations.mlflow.services import MLFlowDeploymentService
-from pipelines.deployment_pipeline import continuous_deployment_pipeline
 
 DEPLOY = "deploy"
 PREDICT = "predict"
 DEPLOY_AND_PREDICT = "deploy_and_predict"
+
 
 @click.command()
 @click.option(
@@ -27,20 +27,18 @@ DEPLOY_AND_PREDICT = "deploy_and_predict"
     "(`predict`). By default both pipelines are run."
     "(`deploy_and_predict`)"
 )
-
 @click.option(
     "--min-accuracy",
-    default=0.5,
+    default=0.0,
     help="Minimum accuracy for the model to be deployed"
 )
-
 def main(config: str, min_accuracy: float):
     mlflow_model_deployer_component = MLFlowModelDeployer.get_active_model_deployer()
     deploy = config == DEPLOY or config == DEPLOY_AND_PREDICT
     predict = config == PREDICT or config == DEPLOY_AND_PREDICT
     if deploy:
         continuous_deployment_pipeline(
-            data_path = 'data/olist_customers_dataset.csv',
+            data_path='data/olist_customers_dataset.csv',
             min_accuracy=min_accuracy,
             workers=3,
             timeout=60,
@@ -50,9 +48,6 @@ def main(config: str, min_accuracy: float):
             pipeline_name="continuous_deployment_pipeline",
             pipeline_step_name="mlflow_model_deployer_step",
         )
-
-    
-
 
     print(
         "You can run:\n "

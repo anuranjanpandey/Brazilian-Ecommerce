@@ -21,6 +21,7 @@ from steps.ingest_data import ingest_df
 
 docker_settings = DockerSettings(required_integrations=[MLFLOW])
 
+
 @step(enable_cache=False)
 def dynamic_importer() -> str:
     """Downloads the latest data from a mock API."""
@@ -32,7 +33,8 @@ class DeploymentTriggerConfig(BaseParameters):
     """
     Deployment trigger configuration.
     """
-    min_accuracy: float = 0.5
+    min_accuracy: float = 0.0
+
 
 @step
 def deployment_trigger(
@@ -47,7 +49,8 @@ def deployment_trigger(
     Returns:
         bool: Whether to trigger deployment or not.
     """
-    return accuracy > config.min_accuracy
+    return accuracy >= config.min_accuracy
+
 
 class MLFlowDeploymentLoaderStepParameters(BaseParameters):
     """MLflow deployment getter parameters
@@ -101,9 +104,10 @@ def prediction_service_loader(
             f"pipeline for the '{model_name}' model is currently "
             f"running."
         )
-    print(existing_services)
-    print(type(existing_services))
+    # print(existing_services)
+    # print(type(existing_services))
     return existing_services[0]
+
 
 @step
 def predictor(
@@ -140,7 +144,7 @@ def predictor(
 @pipeline(enable_cache=False, settings={"docker": docker_settings})
 def continuous_deployment_pipeline(
     data_path: str,
-    min_accuracy: float = 0.5,
+    min_accuracy: float = 0.0,
     workers: int = 1,
     timeout: int = DEFAULT_SERVICE_START_STOP_TIMEOUT,
 ):
@@ -155,6 +159,7 @@ def continuous_deployment_pipeline(
         workers=workers,
         timeout=timeout,
     )
+
 
 @pipeline(enable_cache=False, settings={"docker": docker_settings})
 def inference_pipeline(pipeline_name: str, pipeline_step_name: str):

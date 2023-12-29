@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
+
 class DataStrategy(ABC):
     """
     Abstract class for data strategy.
@@ -21,6 +22,7 @@ class DataStrategy(ABC):
                 data.
         """
         pass
+
 
 class DataPreprocessStrategy(DataStrategy):
     """
@@ -42,10 +44,14 @@ class DataPreprocessStrategy(DataStrategy):
                 ],
                 axis=1,
             )
-            data["product_weight_g"].fillna(data["product_weight_g"].median(), inplace=True)
-            data["product_length_cm"].fillna(data["product_length_cm"].median(), inplace=True)
-            data["product_height_cm"].fillna(data["product_height_cm"].median(), inplace=True)
-            data["product_width_cm"].fillna(data["product_width_cm"].median(), inplace=True)
+            data["product_weight_g"].fillna(
+                data["product_weight_g"].median(), inplace=True)
+            data["product_length_cm"].fillna(
+                data["product_length_cm"].median(), inplace=True)
+            data["product_height_cm"].fillna(
+                data["product_height_cm"].median(), inplace=True)
+            data["product_width_cm"].fillna(
+                data["product_width_cm"].median(), inplace=True)
             # write "No review" in review_comment_message column
             data["review_comment_message"].fillna("No review", inplace=True)
 
@@ -58,10 +64,12 @@ class DataPreprocessStrategy(DataStrategy):
             logging.error(e)
             raise e
 
+
 class DataDivideStrategy(DataStrategy):
     """
     Data divide strategy which divides the data into train and test sets.
     """
+
     def handle_data(self, data: pd.DataFrame) -> Union[pd.DataFrame, pd.Series]:
         """
         Divides the data into train and test data.
@@ -77,10 +85,12 @@ class DataDivideStrategy(DataStrategy):
             logging.error(e)
             raise e
 
+
 class DataCleaning:
     """
     Class for cleaning data which processes the data and divides it into train and test sets.
     """
+
     def __init__(self, data: pd.DataFrame, strategy: DataStrategy):
         """
         Args:
@@ -102,4 +112,3 @@ class DataCleaning:
         except Exception as e:
             logging.error("Error while handling data: {}".format(e))
             raise e
-    

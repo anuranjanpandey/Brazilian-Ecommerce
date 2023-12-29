@@ -2,17 +2,19 @@ import logging
 import pandas as pd
 from zenml import step
 
+
 class IngestData:
     """
     Ingest data from the data_path.
     """
+
     def __init__(self, data_path: str):
         """
         Args:
             data_path (str): Path to the data.
         """
         self.data_path = data_path
-    
+
     def get_data(self):
         """
         Ingest data from the data_path.
@@ -33,4 +35,3 @@ def ingest_df(data_path: str) -> pd.DataFrame:
         pd.DataFrame: Dataframe containing the data.
     """
     return IngestData(data_path).get_data()
-

@@ -10,14 +10,15 @@ import mlflow
 
 experiment_tracker = Client().active_stack.experiment_tracker
 
+
 @step(experiment_tracker=experiment_tracker.name)
-def evaluate_model(model: RegressorMixin, 
-    X_test: pd.DataFrame, 
-    y_test: pd.DataFrame
-    ) -> Tuple[
-        Annotated[float, "r2_score"], 
+def evaluate_model(model: RegressorMixin,
+                   X_test: pd.DataFrame,
+                   y_test: pd.DataFrame
+                   ) -> Tuple[
+        Annotated[float, "r2_score"],
         Annotated[float, "rmse"]
-    ]:
+]:
     """
     Evaluate the model.
     Args:
@@ -45,9 +46,8 @@ def evaluate_model(model: RegressorMixin,
         rmse_class = RMSE()
         rmse = rmse_class.calculate_score(y_test, prediction)
         mlflow.log_metric("rmse", rmse)
-        
+
         return r2_score, rmse
     except Exception as e:
         logging.error("Model evaluation failed!: {}".format(e))
         raise e
-    

@@ -10,4 +10,4 @@ if __name__ == "__main__":
     # Run the pipeline
     training_pipeline(data_path)
 
-# mlflow ui --backend-store-uri "file:/home/anuranjan/.config/zenml/local_stores/cb062da0-879f-4981-8e21-d87b460a2fda/mlruns"
+# mlflow ui --backend-store-uri "file:/home/anuranjan/.config/zenml/local_stores/9c5db2b8-fcf0-421b-ac53-8018c8753c7b/mlruns"

@@ -1,4 +1,4 @@
-import  logging
+import logging
 import pandas as pd
 from zenml import step
 from src.model_dev import LinearRegressionModel
@@ -34,9 +34,8 @@ def train_model(X_train: pd.DataFrame,
             return trained_model
         else:
             logging.error("Model name not found!")
-            raise ValueError("Model {} not supported!".format(config.model_name))
+            raise ValueError(
+                "Model {} not supported!".format(config.model_name))
     except Exception as e:
         logging.error("Model training failed!: {}".format(e))
         raise e
-
-    

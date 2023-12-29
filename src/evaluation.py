@@ -1,7 +1,8 @@
 import logging
 from abc import ABC, abstractmethod
-import numpy as np 
+import numpy as np
 from sklearn.metrics import mean_squared_error, r2_score
+
 
 class Evaluation(ABC):
     """Abstract class defining strategies for evaluation of our models"""
@@ -14,8 +15,10 @@ class Evaluation(ABC):
         """
         pass
 
+
 class MSE(Evaluation):
     """Evaluation strategy that uses Mean Squared Error"""
+
     def calculate_score(self, y_true: np.ndarray, y_pred: np.ndarray):
         """Calculate the score of the model
         Args:
@@ -31,8 +34,10 @@ class MSE(Evaluation):
             logging.error("MSE calculation failed!: {}".format(e))
             raise e
 
+
 class R2(Evaluation):
     """Evaluation strategy that uses R2"""
+
     def calculate_score(self, y_true: np.ndarray, y_pred: np.ndarray):
         """Calculate the score of the model
         Args:
@@ -47,9 +52,11 @@ class R2(Evaluation):
         except Exception as e:
             logging.error("R2 calculation failed!: {}".format(e))
             raise e
-        
+
+
 class RMSE(Evaluation):
     """Evaluation strategy that uses Root Mean Squared Error"""
+
     def calculate_score(self, y_true: np.ndarray, y_pred: np.ndarray):
         """Calculate the score of the model
         Args:
